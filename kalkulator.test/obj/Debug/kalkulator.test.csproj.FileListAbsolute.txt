@@ -1,0 +1,14 @@
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\bin\Debug\kalkulator.test.exe.config
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\bin\Debug\kalkulator.test.exe
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\bin\Debug\kalkulator.test.pdb
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\bin\Debug\kalkulator.exe
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\bin\Debug\kalkulator.pdb
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\bin\Debug\kalkulator.exe.config
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.csproj.AssemblyReference.cache
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.Form1.resources
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.Properties.Resources.resources
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.csproj.GenerateResource.cache
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.csproj.CoreCompileInputs.cache
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulat.9BA39800.Up2Date
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.exe
+C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.pdb

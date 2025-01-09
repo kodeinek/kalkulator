@@ -1,0 +1,10 @@
+C:\Users\jaros\source\repos\kalkulator\kalkulator\bin\Debug\kalkulator.exe.config
+C:\Users\jaros\source\repos\kalkulator\kalkulator\bin\Debug\kalkulator.exe
+C:\Users\jaros\source\repos\kalkulator\kalkulator\bin\Debug\kalkulator.pdb
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.AssemblyReference.cache
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.Form1.resources
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.Properties.Resources.resources
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.GenerateResource.cache
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.CoreCompileInputs.cache
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.exe
+C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.pdb
