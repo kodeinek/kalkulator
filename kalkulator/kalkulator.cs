@@ -85,11 +85,11 @@ public void ConvertTextValue(bool helpValue = false)
             }
 
             // Obsługa wartości ujemnych (uzupełnienie do dwóch)
-            long maxValue = (1L << wordLength) - 1;
+            long maxValue = (1L << (wordLength - 1)) - 1;
             long minValue = -(1L << (wordLength - 1));
             if (value < minValue || value > maxValue)
             {
-                throw new ArgumentOutOfRangeException($"Value {value} is out of range for {word_size}.");
+                throw new ArgumentOutOfRangeException($"Value {value} is out of range for {word_size},{maxValue}, {minValue}.");
             }
 
             // Konwersja do uzupełnienia do dwóch (dla wartości ujemnych)

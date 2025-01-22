@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,68 +13,95 @@ namespace kalkulator
 {
     public partial class Form1 : Form
     {
-        private string currentInput = ""; // Текущее введенное выражение
-        private bool isResultShown = false; // Флаг для проверки, отображен ли результат
+
+
+        public Kalkulator calc = new Kalkulator();
+       
+
+        private string currentInput = ""; // Aktualne wprowadzone wyrażenie
+        private bool isResultShown = false; // Flaga do sprawdzania, czy wynik jest wyświetlany
+
         private void DigitButton_Click(object sender, EventArgs e)
         {
             if (isResultShown)
             {
-                currentInput = ""; // Если был результат, начинаем ввод заново
+                currentInput = ""; // Jeśli wynik został pokazany, rozpoczynamy nowe wprowadzenie
                 isResultShown = false;
             }
 
             Button button = sender as Button;
             if (button != null)
             {
-                currentInput += button.Text; // Добавляем цифру в текущее выражение
-                textBox1.Text = currentInput; // Обновляем текстовое поле
+                currentInput += button.Text; // Dodajemy cyfrę do aktualnego wyrażenia
+
+                // Sprawdzamy, czy wprowadzenie jest prawidłowe
+                try
+                {
+                    calc.Value = long.Parse(currentInput); // Przekształcamy aktualne wejście na long
+                    calc.ConvertTextValue(true); // true powoduje, że HelpTextValue będzie zaktualizowane
+                    textBox2.Text = calc.HelpTextValue; // Wyświetlamy pomocniczy tekst w textBox2
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Wprowadź prawidłową liczbę.");
+                }
+                //catch (ArgumentOutOfRangeException)
+                //{
+                //    MessageBox.Show("Wartość poza zakresem."+ calc.Value);
+                //}
+
+                textBox1.Text = currentInput; // Aktualizujemy pole tekstowe
             }
         }
+
         private void OperationButton_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
             if (button != null)
             {
-                currentInput += " " + button.Text + " "; // Добавляем операцию с пробелами для читаемости
-                textBox1.Text = currentInput; // Обновляем текстовое поле
+                currentInput += " " + button.Text + " "; // Dodajemy operator z przestrzenią dla lepszej czytelności
+                textBox1.Text = currentInput; // Aktualizujemy pole tekstowe
             }
         }
+
         private void buttonEquals_Click(object sender, EventArgs e)
         {
             try
             {
-                double result = EvaluateExpression(currentInput); // Вычисляем выражение
-                textBox1.Text = result.ToString(); // Отображаем результат
-                currentInput = result.ToString(); // Сохраняем результат как текущее выражение
+                double result = EvaluateExpression(currentInput); // Obliczamy wyrażenie
+                textBox1.Text = result.ToString(); // Wyświetlamy wynik
+                currentInput = result.ToString(); // Zapisujemy wynik jako aktualne wyrażenie
                 isResultShown = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка: " + ex.Message); // Выводим сообщение об ошибке
+                MessageBox.Show("Błąd: " + ex.Message); // Wyświetlamy komunikat o błędzie
             }
         }
+
         private void buttonOpenBracket_Click(object sender, EventArgs e)
         {
-            currentInput += "("; // Добавляем открывающую скобку
+            currentInput += "("; // Dodajemy nawias otwierający
             textBox1.Text = currentInput;
         }
 
         private void buttonCloseBracket_Click(object sender, EventArgs e)
         {
-            currentInput += ")"; // Добавляем закрывающую скобку
+            currentInput += ")"; // Dodajemy nawias zamykający
             textBox1.Text = currentInput;
         }
+
         private double EvaluateExpression(string expression)
         {
             var table = new System.Data.DataTable();
-            return Convert.ToDouble(table.Compute(expression, string.Empty)); // Вычисляем выражение
-        }
-        private void buttonClear_Click(object sender, EventArgs e)
-        {
-            currentInput = ""; // Очищаем текущее выражение
-            textBox1.Text = ""; // Очищаем текстовое поле
+            return Convert.ToDouble(table.Compute(expression, string.Empty)); // Obliczamy wyrażenie
         }
 
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            currentInput = ""; // Resetujemy aktualne wyrażenie
+            textBox1.Text = ""; // Resetujemy pole tekstowe
+        }
         public Form1()
         {
             InitializeComponent();
