@@ -12,3 +12,17 @@ C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test
 C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulat.9BA39800.Up2Date
 C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.exe
 C:\Users\jaros\source\repos\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.pdb
+Z:\kalkulator\kalkulator.test\bin\Debug\kalkulator.test.exe.config
+Z:\kalkulator\kalkulator.test\bin\Debug\kalkulator.test.exe
+Z:\kalkulator\kalkulator.test\bin\Debug\kalkulator.test.pdb
+Z:\kalkulator\kalkulator.test\bin\Debug\kalkulator.exe
+Z:\kalkulator\kalkulator.test\bin\Debug\kalkulator.pdb
+Z:\kalkulator\kalkulator.test\bin\Debug\kalkulator.exe.config
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.csproj.AssemblyReference.cache
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.Form1.resources
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.Properties.Resources.resources
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.csproj.GenerateResource.cache
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.csproj.CoreCompileInputs.cache
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulat.9BA39800.Up2Date
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.exe
+Z:\kalkulator\kalkulator.test\obj\Debug\kalkulator.test.pdb

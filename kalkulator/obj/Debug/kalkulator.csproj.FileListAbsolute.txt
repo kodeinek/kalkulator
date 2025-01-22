@@ -8,3 +8,13 @@ C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.Ge
 C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.CoreCompileInputs.cache
 C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.exe
 C:\Users\jaros\source\repos\kalkulator\kalkulator\obj\Debug\kalkulator.pdb
+Z:\kalkulator\kalkulator\bin\Debug\kalkulator.exe.config
+Z:\kalkulator\kalkulator\bin\Debug\kalkulator.exe
+Z:\kalkulator\kalkulator\bin\Debug\kalkulator.pdb
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.AssemblyReference.cache
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.Form1.resources
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.Properties.Resources.resources
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.GenerateResource.cache
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.csproj.CoreCompileInputs.cache
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.exe
+Z:\kalkulator\kalkulator\obj\Debug\kalkulator.pdb
