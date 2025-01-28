@@ -21,7 +21,7 @@ namespace kalkulator.test
 
         }
 
-        private void Unexpected(string message)
+        private void Unexpected(string message)// początkowa wartość tekstowa
         {
             textBox1.AppendText(message + Environment.NewLine);  // Dodaje komunikat do TextBox
             textBox1.ScrollToCaret(); // Przewija do ostatniej linii
@@ -40,7 +40,7 @@ namespace kalkulator.test
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)// startowy system
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -52,7 +52,7 @@ namespace kalkulator.test
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)//początkowa wartość
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -64,62 +64,66 @@ namespace kalkulator.test
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)// test sumowania
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
 
             button.BackColor = Color.Green;
-
-            if (calc.sum(2, 2) != 4)
+            calc.Value = 2;
+            calc.Value2 = 2;
+            if (calc.sum() != 4)
             {
                 button.BackColor = Color.Red;
             }
         }
 
 
-        private void button6_Click(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e)// test mnożenia
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
 
             button.BackColor = Color.Green;
-
-            if (calc.multiply(2, 2) != 4)
+            calc.Value = 2;
+            calc.Value2 = 2;
+            if (calc.multiply() != 4)
             {
                 button.BackColor = Color.Red;
             }
         }
 
 
-        private void button5_Click_1(object sender, EventArgs e)
+        private void button5_Click_1(object sender, EventArgs e)// test odejmowania
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
 
             button.BackColor = Color.Green;
-
-            if (calc.sub(2, 2) != 0)
+            calc.Value = 2;
+            calc.Value2 = 2;
+            if (calc.sub() != 0)
             {
                 button.BackColor = Color.Red;
             }
         }
 
-        private void button7_Click_1(object sender, EventArgs e)
+        private void button7_Click_1(object sender, EventArgs e)// test dzielenia
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
-
+            calc.Value = 2;
+            calc.Value2 = 2;
             button.BackColor = Color.Green;
 
-            if (calc.dev(2, 2) != 1)
+            if (calc.dev() != 1)
             {
                 button.BackColor = Color.Red;
             }
         }
 
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)// test reprezentacji binarnej, graniczny 
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -150,7 +154,7 @@ namespace kalkulator.test
                 button.BackColor = Color.Red;  
             }
         }
-        private void button9_Click(object sender, EventArgs e) // test word
+        private void button9_Click(object sender, EventArgs e) // test długości słowa word , graniczny
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -166,6 +170,8 @@ namespace kalkulator.test
             if (calc.HelpTextValue != "0000 0001 0000 0000")  // 256 w binarnym
             {
                 button.BackColor = Color.Red;
+                Unexpected(calc.HelpTextValue);
+
             }
 
             // Test z wartością maksymalną
@@ -174,6 +180,8 @@ namespace kalkulator.test
             if (calc.HelpTextValue != "0111 1111 1111 1111")  // 32767 w binarnym
             {
                 button.BackColor = Color.Red;
+                Unexpected(calc.HelpTextValue);
+
             }
 
             // Test z wartością minimalną
@@ -182,6 +190,7 @@ namespace kalkulator.test
             if (calc.HelpTextValue != "1000 0000 0000 0000")  // -32768 w binarnym
             {
                 button.BackColor = Color.Red;
+
             }
 
             // Test z wartością poza zakresem
@@ -192,7 +201,7 @@ namespace kalkulator.test
             }
         }
        
-        private void button10_Click(object sender, EventArgs e) // test dword
+        private void button10_Click(object sender, EventArgs e) // test dword, graniczny 
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -242,6 +251,7 @@ namespace kalkulator.test
 
         private void textBox1_TextChanged(object sender, EventArgs e) // textbox
         {
+
         }
 
         private void button11_Click(object sender, EventArgs e)//test bin,dec,oct,hex
@@ -308,15 +318,16 @@ namespace kalkulator.test
             }
         }
 
-        private void button12_Click(object sender, EventArgs e)
+        private void button12_Click(object sender, EventArgs e) //
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
 
             button.BackColor = Color.Green;
-
+            calc.Value = 5;
+            calc.Value2 = 3;
             // Test NOT
-            int resultNot = calc.BitwiseNot(5);
+            long resultNot = calc.BitwiseNot();
             if (resultNot != -6) // NOT(5) = -6
             {
                 button.BackColor = Color.Red;
@@ -324,7 +335,7 @@ namespace kalkulator.test
             }
 
             // Test AND
-            int resultAnd = calc.BitwiseAnd(5, 3);
+            long resultAnd = calc.BitwiseAnd();
             if (resultAnd != 1) // 5 AND 3 = 1
             {
                 button.BackColor = Color.Red;
@@ -332,7 +343,7 @@ namespace kalkulator.test
             }
 
             // Test OR
-            int resultOr = calc.BitwiseOr(5, 3);
+            long resultOr = calc.BitwiseOr();
             if (resultOr != 7) // 5 OR 3 = 7
             {
                 button.BackColor = Color.Red;
@@ -340,7 +351,7 @@ namespace kalkulator.test
             }
 
             // Test XOR
-            int resultXor = calc.BitwiseXor(5, 3);
+            long resultXor = calc.BitwiseXor();
             if (resultXor != 6) // 5 XOR 3 = 6
             {
                 button.BackColor = Color.Red;
@@ -348,15 +359,17 @@ namespace kalkulator.test
             }
         }
 
-        private void button13_Click(object sender, EventArgs e)
+        private void button13_Click(object sender, EventArgs e)// graniczny
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
 
             button.BackColor = Color.Green;
+            calc.Value = 5;
+            calc.Value2 = 3;
 
             // Test Shift Left (SHL)
-            int resultShl = calc.ShiftLeft(5, 1);
+            long resultShl = calc.ShiftLeft(1);
             if (resultShl != 10) // 5 << 1 = 10
             {
                 button.BackColor = Color.Red;
@@ -364,22 +377,22 @@ namespace kalkulator.test
             }
 
             // Test Shift Right (SHR)
-            int resultShr = calc.ShiftRight(5, 1);
+            long resultShr = calc.ShiftRight(1);
             if (resultShr != 2) // 5 >> 1 = 2
             {
                 button.BackColor = Color.Red;
                 Unexpected($"SHR(5, 1) failed: {resultShr}");
             }
 
-            // Additional Shift Left/Right edge cases
-            int largeShiftLeft = calc.ShiftLeft(1, 30); // 1 << 30
+            calc.Value = 1;
+            long largeShiftLeft = calc.ShiftLeft(30); // 1 << 30
             if (largeShiftLeft != 1073741824)
             {
                 button.BackColor = Color.Red;
                 Unexpected($"SHL(1, 30) failed: {largeShiftLeft}");
             }
-
-            int largeShiftRight = calc.ShiftRight(-2147483648, 31); // -2147483648 >> 31
+            calc.Value = -2147483648;
+            long largeShiftRight = calc.ShiftRight(31); // -2147483648 >> 31
             if (largeShiftRight != -1)
             {
                 button.BackColor = Color.Red;
@@ -387,15 +400,245 @@ namespace kalkulator.test
             }
         }
 
+        private void button14_Click(object sender, EventArgs e) // Test modulo
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
+
+            button.BackColor = Color.Green;
+
+            calc.Value = 10;
+            calc.Value2 = 3;
+            if (calc.Modulo() != 1) // 10 % 3 = 1
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"Modulo(10, 3) failed: {calc.Modulo()}");
+            }
+
+            calc.Value = -10;
+            if (calc.Modulo() != -1) // -10 % 3 = -1
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"Modulo(-10, 3) failed: {calc.Modulo()}");
+            }
+
+            calc.Value2 = 0;
+            try
+            {
+                calc.Modulo(); // Próba wykonania dzielenia przez zero
+                button.BackColor = Color.Red;
+                Unexpected("Modulo division by zero did not throw an exception");
+            }
+            catch (DivideByZeroException)
+            {
+                // Oczekiwane zachowanie
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e) // Test pamięci
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
+
+            button.BackColor = Color.Green;
+
+            calc.Value = 42;
+            calc.SaveMemory(); // Zapisuje 42 do pamięci
+
+            calc.Value = 0;
+            calc.LoadMemory(); // Odczytuje z pamięci
+
+            if (calc.Value != 42)
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"Memory load failed: {calc.Value}");
+            }
+
+            calc.MemoryClear(); // Czyści pamięć
+            calc.LoadMemory();
+            if (calc.Value != 0)
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"Memory clear failed: {calc.Value}");
+            }
+        }
+
+        private void button16_Click(object sender, EventArgs e) // Test usuwania znaku
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
+
+            button.BackColor = Color.Green;
+
+            calc.TextValue = "12345";
+            calc.RemoveLastCharacter();
+            if (calc.TextValue != "1234")
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"RemoveLastCharacter failed: {calc.TextValue}");
+            }
+
+            calc.TextValue = "1";
+            calc.RemoveLastCharacter();
+            if (calc.TextValue != "0")
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"RemoveLastCharacter to empty string failed: {calc.TextValue}");
+            }
+        }
 
 
+        private void button17_Click(object sender, EventArgs e) // Test zmiany znaku
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
+
+            button.BackColor = Color.Green;
+
+            calc.Value = 123;
+            calc.ChangeSign();
+            if (calc.Value != -123)
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"ChangeSign failed: {calc.Value}");
+            }
+
+            calc.ChangeSign();
+            if (calc.Value != 123)
+            {
+                button.BackColor = Color.Red;
+                Unexpected($"ChangeSign twice failed: {calc.Value}");
+            }
+        }
 
 
+        private void button18_Click(object sender, EventArgs e) // Test wartości granicznych dla rozmiarów word
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
 
+            button.BackColor = Color.Green;
 
+            try
+            {
+                // Test dla byte
+                calc.word_size = Kalkulator.WordSize.byte_;
+                calc.Value = 127; // Maksymalna wartość dla signed byte
+                calc.Value2 = 1;
 
+                if (calc.RepresentWord() && calc.sum() != 128) // Powinno wyjść poza zakres
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum exceeded byte range but was not detected");
+                }
 
+                calc.Value = -128; // Minimalna wartość dla signed byte
+                calc.Value2 = -1;
 
+                if (calc.RepresentWord() && calc.sub() != -129) // Powinno wyjść poza zakres
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Subtraction exceeded byte range but was not detected");
+                }
+
+                // Test dla word
+                calc.word_size = Kalkulator.WordSize.word_;
+                calc.Value = 32767; // Maksymalna wartość dla signed word
+                calc.Value2 = 1;
+
+                if (calc.RepresentWord() && calc.sum() != 32768) // Powinno wyjść poza zakres
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum exceeded word range but was not detected");
+                }
+
+                calc.Value = -32768; // Minimalna wartość dla signed word
+                calc.Value2 = -1;
+
+                if (calc.RepresentWord() && calc.sub() != -32769) // Powinno wyjść poza zakres
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Subtraction exceeded word range but was not detected");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}");
+            }
+        }
+
+        private void button19_Click(object sender, EventArgs e) // Test operacji arytmetycznych
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
+
+            button.BackColor = Color.Green;
+
+            try
+            {
+                // Test dla byte
+                calc.word_size = Kalkulator.WordSize.byte_;
+                calc.Value = 99;
+                calc.Value2 = 99;
+
+                if (calc.RepresentWord())
+                {
+                    try
+                    {
+                        calc.sum(); // Powinno wyjść poza zakres
+                        button.BackColor = Color.Red;
+                        Unexpected("Sum of 99 + 99 for byte was not detected as overflow");
+                    }
+                    catch (OverflowException)
+                    {
+                        // Oczekiwane zachowanie
+                    }
+                }
+
+                // Test dla word
+                calc.word_size = Kalkulator.WordSize.word_;
+                calc.Value = 32000;
+                calc.Value2 = 1000;
+
+                if (calc.RepresentWord())
+                {
+                    try
+                    {
+                        calc.sum(); // Powinno wyjść poza zakres
+                        button.BackColor = Color.Red;
+                        Unexpected("Sum of 32000 + 1000 for word was not detected as overflow");
+                    }
+                    catch (OverflowException)
+                    {
+                        // Oczekiwane zachowanie
+                    }
+                }
+
+                // Test dla dword
+                calc.word_size = Kalkulator.WordSize.dword_;
+                calc.Value = 2147483640;
+                calc.Value2 = 10;
+
+                if (calc.RepresentWord())
+                {
+                    try
+                    {
+                        calc.sum(); // Powinno wyjść poza zakres
+                        button.BackColor = Color.Red;
+                        Unexpected("Sum of 2147483640 + 10 for dword was not detected as overflow");
+                    }
+                    catch (OverflowException)
+                    {
+                        // Oczekiwane zachowanie
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}");
+            }
+        }
 
 
 
@@ -414,10 +657,16 @@ namespace kalkulator.test
             button11_Click(button11, null);
             button12_Click(button12, null);
             button13_Click(button13, null);
-
+            button14_Click(button14, null);
+            button15_Click(button15, null);
+            button16_Click(button16, null);
+            button17_Click(button17, null);
+            button18_Click(button18, null);
+            button19_Click(button19, null);
 
 
         }
+
 
     }
 }

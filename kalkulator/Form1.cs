@@ -107,17 +107,7 @@ namespace kalkulator
             InitializeComponent();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e) //main window
-        {
-
-        }
-
         private void textBox2_TextChanged(object sender, EventArgs e)// helptext value po 2 bajty na linie 
-        {
-
-        }
-
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -386,5 +376,74 @@ namespace kalkulator
         {
 
         }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Odznacz wszystkie elementy przed zaznaczeniem nowego
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                if (i != e.Index) checkedListBox1.SetItemChecked(i, false);
+            }
+
+            // Ustaw odpowiedni typ kalkulatora
+            if (e.NewValue == CheckState.Checked)
+            {
+                switch (checkedListBox1.Items[e.Index].ToString())
+                {
+                    case "Hex":
+                        calc.ValueType = Kalkulator.KalkulatorType.hex;
+                        break;
+                    case "Dec":
+                        calc.ValueType = Kalkulator.KalkulatorType.dec;
+                        break;
+                    case "Oct":
+                        calc.ValueType = Kalkulator.KalkulatorType.oct;
+                        break;
+                    case "Bin":
+                        calc.ValueType = Kalkulator.KalkulatorType.bin;
+                        break;
+                }
+                calc.ConvertTextValue(true); // Aktualizacja wartości i HelpTextValue
+                textBox2.Text = calc.HelpTextValue;
+                textBox1.Text = calc.TextValue;
+            }
+        }
+        private void checkedListBox2_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Odznacz wszystkie elementy przed zaznaczeniem nowego
+            for (int i = 0; i < checkedListBox2.Items.Count; i++)
+            {
+                if (i != e.Index) checkedListBox2.SetItemChecked(i, false);
+            }
+
+            // Ustaw odpowiedni rozmiar słowa kalkulatora
+            if (e.NewValue == CheckState.Checked)
+            {
+                switch (checkedListBox2.Items[e.Index].ToString())
+                {
+                    case "Qword":
+                        calc.word_size = Kalkulator.WordSize.qword_;
+                        break;
+                    case "Dword":
+                        calc.word_size = Kalkulator.WordSize.dword_;
+                        break;
+                    case "Word":
+                        calc.word_size = Kalkulator.WordSize.word_;
+                        break;
+                    case "Bajt":
+                        calc.word_size = Kalkulator.WordSize.byte_;
+                        break;
+                }
+                calc.ConvertTextValue(true); // Aktualizacja wartości i HelpTextValue
+                textBox2.Text = calc.HelpTextValue;
+                textBox1.Text = calc.TextValue;
+            }
+        }
+
     }
 }

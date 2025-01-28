@@ -86,7 +86,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(440, 49);
             this.textBox1.TabIndex = 1;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.TextChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // checkedListBox1
             // 
@@ -103,6 +104,7 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(79, 88);
             this.checkedListBox1.TabIndex = 2;
+            this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // textBox2
@@ -135,6 +137,7 @@
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.Size = new System.Drawing.Size(79, 88);
             this.checkedListBox2.TabIndex = 4;
+            this.checkedListBox2.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox2_ItemCheck);
             this.checkedListBox2.SelectedIndexChanged += new System.EventHandler(this.checkedListBox2_SelectedIndexChanged);
             // 
             // button1
