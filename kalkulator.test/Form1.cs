@@ -516,7 +516,7 @@ namespace kalkulator.test
             }
         }
 
-        private void button18_Click(object sender, EventArgs e) // Test wartości granicznych dla rozmiarów word
+        private void button18_Click(object sender, EventArgs e)
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -563,6 +563,46 @@ namespace kalkulator.test
                 {
                     button.BackColor = Color.Red;
                     Unexpected("Subtraction exceeded word range but was not detected");
+                }
+
+                // Test dla dword
+                calc.word_size = Kalkulator.WordSize.dword_;
+                calc.Value = 2147483647;
+                calc.Value2 = 1;
+
+                if (calc.sum())
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum exceeded dword range but was not detected");
+                }
+
+                calc.Value = -2147483648;
+                calc.Value2 = 1;
+
+                if (calc.sub())
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Subtraction exceeded dword range but was not detected");
+                }
+
+                // Test dla qword (dla long nie będzie wyjątku, ale sprawdzamy poprawność wartości)
+                calc.word_size = Kalkulator.WordSize.qword_;
+                calc.Value = 9223372036854775807; // Max long
+                calc.Value2 = 1;
+
+                if (calc.sum())
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum exceeded qword range but was not detected");
+                }
+
+                calc.Value = -9223372036854775808; // Min long
+                calc.Value2 = 1;
+
+                if (calc.sub())
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Subtraction exceeded qword range but was not detected");
                 }
             }
             catch (Exception ex)
@@ -632,7 +672,7 @@ namespace kalkulator.test
             }
         }
 
-        private void button20_Click(object sender, EventArgs e) // Test przywracania poprzedniej wartości po przepełnieniu
+        private void button20_Click(object sender, EventArgs e)
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -688,6 +728,66 @@ namespace kalkulator.test
                 }
 
                 calc.Value = -32768;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sub() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sub()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sub()");
+                }
+
+                // Test dla dword
+                calc.word_size = Kalkulator.WordSize.dword_;
+                calc.Value = 2147483647;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sum() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sum()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sum()");
+                }
+
+                calc.Value = -2147483648;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sub() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sub()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sub()");
+                }
+
+                // Test dla qword (long)
+                calc.word_size = Kalkulator.WordSize.qword_;
+                calc.Value = 9223372036854775807;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sum() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sum()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sum()");
+                }
+
+                calc.Value = -9223372036854775808;
                 calc.Value2 = 1;
                 previousValue = calc.Value;
 
