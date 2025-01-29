@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace kalkulator
 {
@@ -11,7 +13,8 @@ namespace kalkulator
         public string TextValue { get; set; } = "0";
         public string HelpTextValue { get; set; } = "0000  0000";
 
-        private long MemoryValue { get; set; } = 0; // Pamięć kalkulatora
+        private long MemoryValue { get; set; } = 0;
+        private long PreviousValue { get; set; } = 0;
 
         public enum KalkulatorType
         {
@@ -31,18 +34,13 @@ namespace kalkulator
         }
         public WordSize word_size { get; set; } = WordSize.qword_;
 
-        // Zamiana +/− (zmiana znaku liczby)
         public void ChangeSign()
         {
             Value = -Value;
             ConvertTextValue();
         }
 
-        // Operacje pamięci
-        public void MemoryClear()
-        {
-            MemoryValue = 0;
-        }
+        public void MemoryClear() => MemoryValue = 0;
 
         public void LoadMemory()
         {
@@ -50,32 +48,18 @@ namespace kalkulator
             ConvertTextValue();
         }
 
-        public void SaveMemory()
-        {
-            MemoryValue = Value;
-        }
+        public void SaveMemory() => MemoryValue = Value;
 
-        public void MemoryAdd()
-        {
-            MemoryValue += Value;
-        }
+        public void MemoryAdd() => MemoryValue += Value;
 
-        public void MemorySubtract()
-        {
-            MemoryValue -= Value;
-        }
+        public void MemorySubtract() => MemoryValue -= Value;
 
-        // Operacja Modulo
         public long Modulo()
         {
-            if (Value2 == 0)
-            {
-                throw new DivideByZeroException("Nie można wykonać modulo z zerem.");
-            }
+            if (Value2 == 0) throw new DivideByZeroException("Nie można wykonać modulo z zerem.");
             return Value % Value2;
         }
 
-        // Operacja Backspace (usuwa ostatni znak z bieżącego wpisu)
         public void RemoveLastCharacter()
         {
             if (TextValue.Length > 1)
@@ -122,51 +106,33 @@ namespace kalkulator
                 {
                     case KalkulatorType.bin:
                         if (input.All(c => c == '0' || c == '1'))
-                        {
                             Value = Convert.ToInt64(input, 2);
-                        }
                         else
-                        {
                             throw new FormatException("Wartość binarna może zawierać tylko cyfry 0 i 1.");
-                        }
                         break;
-
                     case KalkulatorType.oct:
                         if (input.All(c => c >= '0' && c <= '7'))
-                        {
                             Value = Convert.ToInt64(input, 8);
-                        }
                         break;
-
                     case KalkulatorType.hex:
                         if (input.All(c => (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f')))
-                        {
                             Value = Convert.ToInt64(input, 16);
-                        }
                         else
-                        {
                             throw new FormatException("Wartość szesnastkowa może zawierać tylko cyfry od 0 do 9 oraz litery A-F.");
-                        }
                         break;
-
                     case KalkulatorType.dec:
                     default:
                         if (input.All(c => c >= '0' && c <= '9'))
-                        {
                             Value = Convert.ToInt64(input, 10);
-                        }
                         else
-                        {
                             throw new FormatException("Wartość dziesiętna może zawierać tylko cyfry od 0 do 9.");
-                        }
                         break;
                 }
-
                 ConvertTextValue();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd: {ex.Message}");
+                MessageBox.Show($"Błąd: {ex.Message}");
                 Value = 0;
                 TextValue = "Błąd";
             }
@@ -174,25 +140,14 @@ namespace kalkulator
 
         private string GenerateHelpText(long value)
         {
-            int wordLength;
-            switch (word_size)
+            int wordLength = word_size switch
             {
-                case WordSize.byte_:
-                    wordLength = 8;
-                    break;
-                case WordSize.word_:
-                    wordLength = 16;
-                    break;
-                case WordSize.dword_:
-                    wordLength = 32;
-                    break;
-                case WordSize.qword_:
-                    wordLength = 64;
-                    break;
-                default:
-                    wordLength = 0;
-                    break;
-            }
+                WordSize.byte_ => 8,
+                WordSize.word_ => 16,
+                WordSize.dword_ => 32,
+                WordSize.qword_ => 64,
+                _ => 0
+            };
 
             ulong binaryRepresentation = (ulong)value & ((1UL << wordLength) - 1);
             string binary = Convert.ToString((long)binaryRepresentation, 2).PadLeft(wordLength, '0');
@@ -206,75 +161,182 @@ namespace kalkulator
 
         public bool RepresentWord()
         {
-            switch (word_size)
+            return word_size switch
             {
-                case WordSize.byte_:
-                    return (Value >= -128 && Value <= 127);
-                case WordSize.word_:
-                    return (Value >= -32768 && Value <= 32767);
-                case WordSize.dword_:
-                    return (Value >= -2147483648 && Value <= 2147483647);
-                case WordSize.qword_:
-                    double minDouble = -Math.Pow(2, 63);
-                    double maxDouble = Math.Pow(2, 63) - 1;
-                    return (Value >= minDouble && Value <= maxDouble);
-                default:
-                    return false;
+                WordSize.byte_ => Value >= sbyte.MinValue && Value <= sbyte.MaxValue,
+                WordSize.word_ => Value >= short.MinValue && Value <= short.MaxValue,
+                WordSize.dword_ => Value >= int.MinValue && Value <= int.MaxValue,
+                WordSize.qword_ => Value >= long.MinValue && Value <= long.MaxValue,  // Ensure it remains within `long`
+                _ => false
+            };
+        }
+        public bool sum()
+        {
+            PreviousValue = Value;
+            try
+            {
+                switch (word_size)
+                {
+                    case WordSize.byte_:
+                        checked
+                        {
+                            sbyte temp = (sbyte)Value;
+                            Value = (sbyte)(temp + (sbyte)Value2);
+                        }
+                        break;
+                    case WordSize.word_:
+                        checked
+                        {
+                            short temp = (short)Value;
+                            Value = (short)(temp + (short)Value2);
+                        }
+                        break;
+                    case WordSize.dword_:
+                        checked
+                        {
+                            int temp = (int)Value;
+                            Value = (int)(temp + (int)Value2);
+                        }
+                        break;
+                    case WordSize.qword_: // QWORD = long, brak przepełnienia
+                        checked
+                        {
+                            long temp = Value;
+                            Value = temp + Value2; // long obsługuje cały zakres, nie będzie wyjątku
+                        }
+                        break;
+                }
             }
+            catch (OverflowException)
+            {
+                //MessageBox.Show("Sum exceeded the allowed range for the current word size.");
+                Value = PreviousValue;
+                return false;
+            }
+            return true;
         }
 
-        public long sum()
+        public bool sub()
         {
-            return Value + Value2;
+            PreviousValue = Value;
+            try
+            {
+                switch (word_size)
+                {
+                    case WordSize.byte_:
+                        checked
+                        {
+                            sbyte temp = (sbyte)Value;
+                            Value = (sbyte)(temp - (sbyte)Value2);
+                        }
+                        break;
+                    case WordSize.word_:
+                        checked
+                        {
+                            short temp = (short)Value;
+                            Value = (short)(temp - (short)Value2);
+                        }
+                        break;
+                    case WordSize.dword_:
+                        checked
+                        {
+                            int temp = (int)Value;
+                            Value = (int)(temp - (int)Value2);
+                        }
+                        break;
+                    case WordSize.qword_: // QWORD = long, brak przepełnienia
+                        checked
+                        {
+                            long temp = Value;
+                            Value = temp - Value2; // long obsługuje cały zakres, nie będzie wyjątku
+                        }
+                        break;
+                }
+            }
+            catch (OverflowException)
+            {
+                //MessageBox.Show("Subtraction exceeded the allowed range for the current word size.");
+                Value = PreviousValue;
+                return false;
+            }
+            return true;
         }
 
-        public long multiply()
+        public bool multiply()
         {
-            return Value * Value2;
+            PreviousValue = Value;
+            try
+            {
+                switch (word_size)
+                {
+                    case WordSize.byte_:
+                        checked { Value = (sbyte)Value * (sbyte)Value2; }
+                        break;
+                    case WordSize.word_:
+                        checked { Value = (short)Value * (short)Value2; }
+                        break;
+                    case WordSize.dword_:
+                        checked { Value = (int)Value * (int)Value2; }
+                        break;
+                    case WordSize.qword_:
+                        checked { Value = Value * Value2; }
+                        break;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Multiplication exceeded the allowed range for the current word size.");
+                Value = PreviousValue;
+                return false;
+            }
+            return true;
         }
 
-        public long sub()
+        public bool dev()
         {
-            return Value - Value2;
-        }
-
-        public long dev()
-        {
+            PreviousValue = Value;
             if (Value2 == 0)
             {
-                throw new DivideByZeroException("Nie można dzielić przez zero.");
+                MessageBox.Show("Division by zero is not allowed.");
+                return false;
             }
-            return Value / Value2;
+            try
+            {
+                switch (word_size)
+                {
+                    case WordSize.byte_:
+                        checked { Value = (sbyte)Value / (sbyte)Value2; }
+                        break;
+                    case WordSize.word_:
+                        checked { Value = (short)Value / (short)Value2; }
+                        break;
+                    case WordSize.dword_:
+                        checked { Value = (int)Value / (int)Value2; }
+                        break;
+                    case WordSize.qword_:
+                        checked { Value = Value / Value2; }
+                        break;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Division resulted in overflow.");
+                Value = PreviousValue;
+                return false;
+            }
+            return true;
         }
 
-        public long BitwiseNot()
-        {
-            return ~Value;
-        }
+        public long BitwiseNot() => ~Value;
 
-        public long BitwiseAnd()
-        {
-            return Value & Value2;
-        }
+        public long BitwiseAnd() => Value & Value2;
 
-        public long BitwiseOr()
-        {
-            return Value | Value2;
-        }
+        public long BitwiseOr() => Value | Value2;
 
-        public long BitwiseXor()
-        {
-            return Value ^ Value2;
-        }
+        public long BitwiseXor() => Value ^ Value2;
 
-        public long ShiftLeft(int shift)
-        {
-            return Value << shift;
-        }
+        public long ShiftLeft(int shift) => Value << shift;
 
-        public long ShiftRight(int shift)
-        {
-            return Value >> shift;
-        }
+        public long ShiftRight(int shift) => Value >> shift;
     }
 }

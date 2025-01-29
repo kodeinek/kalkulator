@@ -64,7 +64,7 @@ namespace kalkulator.test
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)// test sumowania
+        private void button4_Click(object sender, EventArgs e) // Test sumowania
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -72,14 +72,15 @@ namespace kalkulator.test
             button.BackColor = Color.Green;
             calc.Value = 2;
             calc.Value2 = 2;
-            if (calc.sum() != 4)
+            calc.sum(); // Teraz funkcja modyfikuje Value
+
+            if (calc.Value != 4) // Sprawdzamy zmodyfikowaną wartość
             {
                 button.BackColor = Color.Red;
             }
         }
 
-
-        private void button6_Click(object sender, EventArgs e)// test mnożenia
+        private void button6_Click(object sender, EventArgs e) // Test mnożenia
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -87,14 +88,15 @@ namespace kalkulator.test
             button.BackColor = Color.Green;
             calc.Value = 2;
             calc.Value2 = 2;
-            if (calc.multiply() != 4)
+            calc.multiply();
+
+            if (calc.Value != 4)
             {
                 button.BackColor = Color.Red;
             }
         }
 
-
-        private void button5_Click_1(object sender, EventArgs e)// test odejmowania
+        private void button5_Click_1(object sender, EventArgs e) // Test odejmowania
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
@@ -102,26 +104,29 @@ namespace kalkulator.test
             button.BackColor = Color.Green;
             calc.Value = 2;
             calc.Value2 = 2;
-            if (calc.sub() != 0)
+            calc.sub();
+
+            if (calc.Value != 0)
             {
                 button.BackColor = Color.Red;
             }
         }
 
-        private void button7_Click_1(object sender, EventArgs e)// test dzielenia
+        private void button7_Click_1(object sender, EventArgs e) // Test dzielenia
         {
             var calc = new Kalkulator();
             var button = (Button)sender;
+
+            button.BackColor = Color.Green;
             calc.Value = 2;
             calc.Value2 = 2;
-            button.BackColor = Color.Green;
+            calc.dev();
 
-            if (calc.dev() != 1)
+            if (calc.Value != 1)
             {
                 button.BackColor = Color.Red;
             }
         }
-
 
         private void button8_Click(object sender, EventArgs e)// test reprezentacji binarnej, graniczny 
         {
@@ -511,7 +516,6 @@ namespace kalkulator.test
             }
         }
 
-
         private void button18_Click(object sender, EventArgs e) // Test wartości granicznych dla rozmiarów word
         {
             var calc = new Kalkulator();
@@ -523,19 +527,19 @@ namespace kalkulator.test
             {
                 // Test dla byte
                 calc.word_size = Kalkulator.WordSize.byte_;
-                calc.Value = 127; // Maksymalna wartość dla signed byte
+                calc.Value = 127;
                 calc.Value2 = 1;
 
-                if (calc.RepresentWord() && calc.sum() != 128) // Powinno wyjść poza zakres
+                if (calc.sum())
                 {
                     button.BackColor = Color.Red;
                     Unexpected("Sum exceeded byte range but was not detected");
                 }
 
-                calc.Value = -128; // Minimalna wartość dla signed byte
-                calc.Value2 = -1;
+                calc.Value = -128;
+                calc.Value2 = 1;
 
-                if (calc.RepresentWord() && calc.sub() != -129) // Powinno wyjść poza zakres
+                if (calc.sub())
                 {
                     button.BackColor = Color.Red;
                     Unexpected("Subtraction exceeded byte range but was not detected");
@@ -543,19 +547,19 @@ namespace kalkulator.test
 
                 // Test dla word
                 calc.word_size = Kalkulator.WordSize.word_;
-                calc.Value = 32767; // Maksymalna wartość dla signed word
+                calc.Value = 32767;
                 calc.Value2 = 1;
 
-                if (calc.RepresentWord() && calc.sum() != 32768) // Powinno wyjść poza zakres
+                if (calc.sum())
                 {
                     button.BackColor = Color.Red;
                     Unexpected("Sum exceeded word range but was not detected");
                 }
 
-                calc.Value = -32768; // Minimalna wartość dla signed word
-                calc.Value2 = -1;
+                calc.Value = -32768;
+                calc.Value2 = 1;
 
-                if (calc.RepresentWord() && calc.sub() != -32769) // Powinno wyjść poza zakres
+                if (calc.sub())
                 {
                     button.BackColor = Color.Red;
                     Unexpected("Subtraction exceeded word range but was not detected");
@@ -581,18 +585,14 @@ namespace kalkulator.test
                 calc.Value = 99;
                 calc.Value2 = 99;
 
-                if (calc.RepresentWord())
+                if (!calc.sum())
                 {
-                    try
-                    {
-                        calc.sum(); // Powinno wyjść poza zakres
-                        button.BackColor = Color.Red;
-                        Unexpected("Sum of 99 + 99 for byte was not detected as overflow");
-                    }
-                    catch (OverflowException)
-                    {
-                        // Oczekiwane zachowanie
-                    }
+                    Console.WriteLine("Overflow detected correctly for byte");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum of 99 + 99 for byte was not detected as overflow");
                 }
 
                 // Test dla word
@@ -600,18 +600,14 @@ namespace kalkulator.test
                 calc.Value = 32000;
                 calc.Value2 = 1000;
 
-                if (calc.RepresentWord())
+                if (!calc.sum())
                 {
-                    try
-                    {
-                        calc.sum(); // Powinno wyjść poza zakres
-                        button.BackColor = Color.Red;
-                        Unexpected("Sum of 32000 + 1000 for word was not detected as overflow");
-                    }
-                    catch (OverflowException)
-                    {
-                        // Oczekiwane zachowanie
-                    }
+                    Console.WriteLine("Overflow detected correctly for word");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum of 32000 + 1000 for word was not detected as overflow");
                 }
 
                 // Test dla dword
@@ -619,18 +615,14 @@ namespace kalkulator.test
                 calc.Value = 2147483640;
                 calc.Value2 = 10;
 
-                if (calc.RepresentWord())
+                if (!calc.sum())
                 {
-                    try
-                    {
-                        calc.sum(); // Powinno wyjść poza zakres
-                        button.BackColor = Color.Red;
-                        Unexpected("Sum of 2147483640 + 10 for dword was not detected as overflow");
-                    }
-                    catch (OverflowException)
-                    {
-                        // Oczekiwane zachowanie
-                    }
+                    Console.WriteLine("Overflow detected correctly for dword");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Sum of 2147483640 + 10 for dword was not detected as overflow");
                 }
 
             }
@@ -640,6 +632,80 @@ namespace kalkulator.test
             }
         }
 
+        private void button20_Click(object sender, EventArgs e) // Test przywracania poprzedniej wartości po przepełnieniu
+        {
+            var calc = new Kalkulator();
+            var button = (Button)sender;
+
+            button.BackColor = Color.Green;
+
+            try
+            {
+                // Test dla byte
+                calc.word_size = Kalkulator.WordSize.byte_;
+                calc.Value = 127;
+                calc.Value2 = 1;
+                var previousValue = calc.Value;
+
+                if (!calc.sum() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sum()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sum()");
+                }
+
+                calc.Value = -128;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sub() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sub()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sub()");
+                }
+
+                // Test dla word
+                calc.word_size = Kalkulator.WordSize.word_;
+                calc.Value = 32767;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sum() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sum()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sum()");
+                }
+
+                calc.Value = -32768;
+                calc.Value2 = 1;
+                previousValue = calc.Value;
+
+                if (!calc.sub() && calc.Value == previousValue)
+                {
+                    Console.WriteLine("Previous value restored after overflow in sub()");
+                }
+                else
+                {
+                    button.BackColor = Color.Red;
+                    Unexpected("Value was not restored after overflow in sub()");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error: {ex.Message}");
+            }
+        }
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -663,6 +729,7 @@ namespace kalkulator.test
             button17_Click(button17, null);
             button18_Click(button18, null);
             button19_Click(button19, null);
+            button20_Click(button20, null);
 
 
         }
